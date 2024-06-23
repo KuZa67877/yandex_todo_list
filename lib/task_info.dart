@@ -1,15 +1,33 @@
+import 'package:uuid/uuid.dart';
 import 'task_status.dart';
 
 class TaskInfo {
-  //TODO возможно добавить сюда сравнение классов через equatable, добавить кодировку в json
+  late final String UUID;
   final bool isDone;
-  //final String uuid;//мб добавить uuid из pubdev для проверки уникальности таски и удаления/взаимодействия с ней
   final String taskInfo;
   final TaskStatusMode taskMode;
-  final DateTime? taskDeadline; //мб поменять значение на не нуллабл
-  const TaskInfo(
-      {this.isDone = false,
-      required this.taskInfo,
-      this.taskMode = TaskStatusMode.standartMode,
-      this.taskDeadline});
+  final DateTime? taskDeadline;
+
+  TaskInfo({
+    required this.UUID,
+    required this.taskInfo,
+    this.isDone = false,
+    this.taskMode = TaskStatusMode.standartMode,
+    this.taskDeadline,
+  });
+
+  TaskInfo copyWith({
+    bool? isDone,
+    String? taskInfo,
+    TaskStatusMode? taskMode,
+    DateTime? taskDeadline,
+  }) {
+    return TaskInfo(
+      UUID: this.UUID,
+      taskInfo: taskInfo ?? this.taskInfo,
+      isDone: isDone ?? this.isDone,
+      taskMode: taskMode ?? this.taskMode,
+      taskDeadline: taskDeadline ?? this.taskDeadline,
+    );
+  }
 }
