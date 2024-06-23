@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yandex_to_do_app/resourses/colors.dart';
-import 'package:yandex_to_do_app/task_info.dart';
+import 'package:yandex_to_do_app/features/main_screen/bloc/task_info.dart';
 import 'package:yandex_to_do_app/task_status.dart';
 
 class TaskPriorityDropDownMenu extends StatelessWidget {

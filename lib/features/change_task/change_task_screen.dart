@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yandex_to_do_app/features/change_task/bloc/change_task_actions.dart';
 import 'package:yandex_to_do_app/features/main_screen/bloc/task_list_actions.dart';
+import 'package:yandex_to_do_app/logger/logger.dart';
 import 'package:yandex_to_do_app/resourses/colors.dart';
 import 'package:yandex_to_do_app/features/change_task/bloc/change_task_bloc.dart';
 
@@ -11,7 +12,7 @@ import 'package:yandex_to_do_app/features/change_task/widgets/add_deadline_task.
 import 'package:yandex_to_do_app/features/change_task/widgets/delete_task_button.dart';
 import 'package:yandex_to_do_app/features/change_task/widgets/task_priority_drop_menu.dart';
 import 'package:yandex_to_do_app/features/change_task/widgets/task_textfield.dart';
-import 'package:yandex_to_do_app/task_info.dart';
+import 'package:yandex_to_do_app/features/main_screen/bloc/task_info.dart';
 import 'package:yandex_to_do_app/features/main_screen/bloc/task_list_bloc.dart';
 import 'package:yandex_to_do_app/task_status.dart';
 
@@ -44,9 +45,11 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
       child: BlocBuilder<ChangeTaskBloc, ChangeTaskState>(
         builder: (context, state) {
           return Scaffold(
+            backgroundColor: AppColors.lightBackPrimary,
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
+                  logger.d('Back to main Screen');
                   Navigator.pop(context);
                 },
                 icon: Icon(Icons.close),
@@ -115,6 +118,7 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
     );
     context.read<TaskListBloc>().add(AddTaskEvent(task: task));
     Navigator.pop(context);
+    logger.d('Current task: ${task.taskInfo}');
   }
 
   void deleteTask() {}

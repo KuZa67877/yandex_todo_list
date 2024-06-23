@@ -1,5 +1,5 @@
 import 'package:yandex_to_do_app/features/main_screen/bloc/task_list_info.dart';
-import 'package:yandex_to_do_app/task_info.dart';
+import 'package:yandex_to_do_app/features/main_screen/bloc/task_info.dart';
 
 abstract class TaskListEvent {
   TaskListEvent();

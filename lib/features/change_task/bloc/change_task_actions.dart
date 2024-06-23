@@ -1,4 +1,4 @@
-import 'package:yandex_to_do_app/task_info.dart';
+import 'package:yandex_to_do_app/features/main_screen/bloc/task_info.dart';
 
 abstract class ChangeTaskEvent {
   const ChangeTaskEvent();

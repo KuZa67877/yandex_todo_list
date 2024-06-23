@@ -1,10 +1,8 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yandex_to_do_app/features/change_task/bloc/change_task_bloc.dart';
 import 'package:yandex_to_do_app/features/main_screen/bloc/task_list_bloc.dart';
-import 'package:yandex_to_do_app/features/main_screen/idk.dart';
+import 'package:yandex_to_do_app/features/main_screen/main_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 

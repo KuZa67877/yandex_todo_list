@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yandex_to_do_app/features/main_screen/bloc/task_list_actions.dart';
 import 'package:yandex_to_do_app/features/main_screen/bloc/task_list_info.dart';
-import 'package:yandex_to_do_app/task_info.dart';
+import 'package:yandex_to_do_app/features/main_screen/bloc/task_info.dart';
 
 class TaskListBloc extends Bloc<TaskListEvent, TaskListInfo> {
   TaskListBloc() : super(TaskListInfo(tasksList: [])) {
+    // Начальное состояние без задач
     on<AddTaskEvent>(_addTask);
     on<DeleteTaskEvent>(_deleteTask);
     on<ChangeTaskListStatusEvent>(_changeTaskListStatus);
@@ -22,9 +23,7 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListInfo> {
   }
 
   Future<void> _deleteTask(
-      DeleteTaskEvent event, Emitter<TaskListInfo> emit) async {
-    // implement delete logic
-  }
+      DeleteTaskEvent event, Emitter<TaskListInfo> emit) async {}
 
   Future<void> _changeTaskListStatus(
       ChangeTaskListStatusEvent event, Emitter<TaskListInfo> emit) async {
@@ -36,7 +35,5 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListInfo> {
   }
 
   Future<void> _changeTaskStatus(
-      ChangeTaskStatusEvent event, Emitter<TaskListInfo> emit) async {
-    // implement change task status logic
-  }
+      ChangeTaskStatusEvent event, Emitter<TaskListInfo> emit) async {}
 }
