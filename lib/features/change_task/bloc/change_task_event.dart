@@ -1,11 +1,11 @@
-import 'package:yandex_to_do_app/features/main_screen/bloc/task_info.dart';
+part of 'change_task_bloc.dart';
 
 abstract class ChangeTaskEvent {
   const ChangeTaskEvent();
 }
 
 class EditTaskEvent extends ChangeTaskEvent {
-  final TaskInfo task;
+  final Task task;
   const EditTaskEvent(this.task);
 }
 

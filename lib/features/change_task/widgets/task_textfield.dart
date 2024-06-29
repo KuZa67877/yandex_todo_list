@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yandex_to_do_app/resourses/colors.dart';
+
+import '../../../resourses/colors.dart';
 
 class TaskTextField extends StatefulWidget {
   const TaskTextField({super.key, required this.controller});

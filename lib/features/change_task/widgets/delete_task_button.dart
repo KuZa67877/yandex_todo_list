@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DeleteTaskButton extends StatelessWidget {
   final Color color;
-  void Function()? callback;
+  final void Function()? callback;
   DeleteTaskButton({super.key, required this.color, required this.callback});
 
   @override

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:yandex_to_do_app/resourses/colors.dart';
+
+import '../../../resourses/colors.dart';
 
 class AddDeadlineWidget extends StatefulWidget {
   bool hasDeadline;
-  AddDeadlineWidget({Key? key, required this.hasDeadline}) : super(key: key);
+  AddDeadlineWidget({Key? key, this.hasDeadline = false}) : super(key: key);
 
   @override
   State<AddDeadlineWidget> createState() => _AddDeadlineWidgetState();
@@ -68,7 +69,7 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
                       fontWeight: FontWeight.w400),
                 ),
                 if (selectedDate != null) ...[
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     FormatDate.toDmmmmyyyy(selectedDate!),
                     style: const TextStyle(

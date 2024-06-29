@@ -1,14 +1,20 @@
-import 'package:uuid/uuid.dart';
-import '../../../task_status.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'task.g.dart';
 
-class TaskInfo {
+enum TaskStatusMode { standartMode, highPriorityMode, lowPriorityMode }
+
+@immutable
+@JsonSerializable()
+class Task extends Equatable {
   late final String UUID;
   final bool isDone;
   final String taskInfo;
   final TaskStatusMode taskMode;
   final DateTime? taskDeadline;
 
-  TaskInfo({
+  Task({
     required this.UUID,
     required this.taskInfo,
     this.isDone = false,
@@ -16,13 +22,13 @@ class TaskInfo {
     this.taskDeadline,
   });
 
-  TaskInfo copyWith({
+  Task copyWith({
     bool? isDone,
     String? taskInfo,
     TaskStatusMode? taskMode,
     DateTime? taskDeadline,
   }) {
-    return TaskInfo(
+    return Task(
       UUID: this.UUID,
       taskInfo: taskInfo ?? this.taskInfo,
       isDone: isDone ?? this.isDone,
@@ -30,4 +36,9 @@ class TaskInfo {
       taskDeadline: taskDeadline ?? this.taskDeadline,
     );
   }
+
+  static Task fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
+  Map<String, dynamic> toJson() => _$TaskToJson(this);
+  @override
+  List<Object?> get props => [UUID, isDone, taskInfo, taskMode, taskDeadline];
 }

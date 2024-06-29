@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:yandex_to_do_app/features/change_task/change_task_screen.dart';
-import 'package:yandex_to_do_app/features/change_task/widgets/add_deadline_task.dart';
-import 'package:yandex_to_do_app/logger/logger.dart';
-import 'package:yandex_to_do_app/resourses/colors.dart';
-import 'package:yandex_to_do_app/features/main_screen/bloc/task_info.dart';
-import 'package:yandex_to_do_app/task_status.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../utils/logger.dart';
+import '../../../resourses/colors.dart';
+import '../../change_task/change_task_screen.dart';
+import '../../../data/task.dart';
+import 'package:intl/intl.dart';
+import '../bloc/task_list_bloc.dart';
+import '../bloc/task_list_event.dart';
 
 class TaskItemWidget extends StatelessWidget {
-  final TaskInfo task;
+  final Task task;
 
   const TaskItemWidget({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<TaskListBloc>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Dismissible(
@@ -21,8 +24,10 @@ class TaskItemWidget extends StatelessWidget {
         secondaryBackground: _buildSwipeActionRight(context),
         onDismissed: (direction) {
           if (direction == DismissDirection.startToEnd) {
-            logger.d('Task completed: ${task.taskInfo}');
+            bloc.add(ChangeTaskStatusEvent(task: task, isDone: !task.isDone));
+            logger.d('Task status changed: ${task.taskInfo}');
           } else if (direction == DismissDirection.endToStart) {
+            bloc.add(DeleteTaskEvent(task: task));
             logger.d('Task deleted: ${task.taskInfo}');
           }
         },
@@ -37,6 +42,7 @@ class TaskItemWidget extends StatelessWidget {
               children: [
                 Text(
                   '${taskStatus(task.taskMode)}${task.taskInfo}',
+                  maxLines: 3,
                   style: TextStyle(
                     decoration: task.isDone
                         ? TextDecoration.lineThrough
@@ -58,18 +64,22 @@ class TaskItemWidget extends StatelessWidget {
                   ),
               ],
             ),
-            leading: Icon(
-              task.isDone ? Icons.check_box : Icons.crop_square_outlined,
-              color: task.taskMode == TaskStatusMode.highPriorityMode &&
-                      !task.isDone
-                  ? AppColors.lightColorRed
-                  : AppColors.lightLabelTertiary,
+            leading: IconButton(
+              onPressed: () => bloc
+                  .add(ChangeTaskStatusEvent(task: task, isDone: !task.isDone)),
+              icon: Icon(
+                task.isDone ? Icons.check_box : Icons.crop_square_outlined,
+                color: task.taskMode == TaskStatusMode.highPriorityMode &&
+                        !task.isDone
+                    ? AppColors.lightColorRed
+                    : AppColors.lightLabelTertiary,
+              ),
             ),
             trailing: IconButton(
               onPressed: () async {
                 logger.d(
                     'Navigating to edit task screen for task: ${task.taskInfo}');
-                final result = await Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ChangeTaskScreen(task: task),
@@ -138,5 +148,11 @@ String taskStatus(TaskStatusMode mode) {
       return '↓ ';
     default:
       return '';
+  }
+}
+
+class FormatDate {
+  static String toDmmmmyyyy(DateTime date) {
+    return '${DateFormat.d().format(date)} ${DateFormat.MMMM('ru').format(date)} ${DateFormat.y().format(date)}';
   }
 }

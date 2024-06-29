@@ -1,6 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yandex_to_do_app/features/change_task/bloc/change_task_actions.dart';
-import 'package:yandex_to_do_app/features/change_task/bloc/change_task_state.dart';
+
+import '../../../data/task.dart';
+
+part 'change_task_event.dart';
+part 'change_task_state.dart';
 
 class ChangeTaskBloc extends Bloc<ChangeTaskEvent, ChangeTaskState> {
   ChangeTaskBloc() : super(ChangeTaskState()) {

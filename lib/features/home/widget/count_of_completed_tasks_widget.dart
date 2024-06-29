@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yandex_to_do_app/bloc/task_list/task_list_bloc.dart';
-import 'package:yandex_to_do_app/resourses/colors.dart';
+
+import '../../../resourses/colors.dart';
+import '../bloc/task_list_bloc.dart';
+import '../bloc/task_list_event.dart';
 
 class CountOfCompetedTasksWidget extends StatelessWidget {
   const CountOfCompetedTasksWidget({
@@ -24,8 +26,12 @@ class CountOfCompetedTasksWidget extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: AppColors.lightLabelTertiary),
             ),
-            const IconButton(
-              onPressed: null,
+            IconButton(
+              onPressed: () {
+                context
+                    .read<TaskListBloc>()
+                    .add(ToggleShowCompletedTasksEvent());
+              },
               icon: Icon(
                 Icons.remove_red_eye,
                 color: AppColors.lightColorBlue,
