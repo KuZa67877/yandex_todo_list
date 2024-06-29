@@ -42,7 +42,6 @@ class TaskItemWidget extends StatelessWidget {
               children: [
                 Text(
                   '${taskStatus(task.taskMode)}${task.taskInfo}',
-                  maxLines: 3,
                   style: TextStyle(
                     decoration: task.isDone
                         ? TextDecoration.lineThrough
@@ -64,16 +63,12 @@ class TaskItemWidget extends StatelessWidget {
                   ),
               ],
             ),
-            leading: IconButton(
-              onPressed: () => bloc
-                  .add(ChangeTaskStatusEvent(task: task, isDone: !task.isDone)),
-              icon: Icon(
-                task.isDone ? Icons.check_box : Icons.crop_square_outlined,
-                color: task.taskMode == TaskStatusMode.highPriorityMode &&
-                        !task.isDone
-                    ? AppColors.lightColorRed
-                    : AppColors.lightLabelTertiary,
-              ),
+            leading: Icon(
+              task.isDone ? Icons.check_box : Icons.crop_square_outlined,
+              color: task.taskMode == TaskStatusMode.highPriorityMode &&
+                      !task.isDone
+                  ? AppColors.lightColorRed
+                  : AppColors.lightLabelTertiary,
             ),
             trailing: IconButton(
               onPressed: () async {

@@ -14,16 +14,16 @@ class TaskListViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskListBloc, TaskListState>(
       builder: (context, state) {
-        final displayedTasks = state.showCompletedTasks
+        final filteredTasks = state.showCompletedTasks
             ? state.tasksList
             : state.tasksList.where((task) => !task.isDone).toList();
 
         return SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              return TaskItemWidget(task: displayedTasks[index]);
+              return TaskItemWidget(task: filteredTasks[index]);
             },
-            childCount: displayedTasks.length,
+            childCount: filteredTasks.length,
           ),
         );
       },

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import '../../../data/task.dart';
 
 class TaskListState extends Equatable {
@@ -14,8 +13,8 @@ class TaskListState extends Equatable {
   });
 
   factory TaskListState.initial() {
-    return TaskListState(
-      tasksList: const [],
+    return const TaskListState(
+      tasksList: [],
       showCompletedTasks: true,
       doneTasksCount: 0,
     );
