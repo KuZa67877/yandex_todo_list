@@ -5,17 +5,23 @@ import 'package:yandex_to_do_app/utils/logger.dart';
 import 'dart:convert';
 import 'task.dart';
 import 'task_api.dart';
+import 'task_api_dio.dart';
 
 class LocalStorageTaskApi extends TaskApi {
-  LocalStorageTaskApi({required SharedPreferences plugin}) : _plugin = plugin {
+  final SharedPreferences _plugin;
+  final DioTaskApi _dioTaskApi;
+
+  LocalStorageTaskApi(
+      {required SharedPreferences plugin, required DioTaskApi dioTaskApi})
+      : _plugin = plugin,
+        _dioTaskApi = dioTaskApi {
     _init();
   }
-
-  final SharedPreferences _plugin;
 
   late final _tasksStreamController = BehaviorSubject<List<Task>>.seeded(
     const [],
   );
+
   @visibleForTesting
   static const kTasksCollectionKey = '__tasks_collection_key__';
 
@@ -23,7 +29,8 @@ class LocalStorageTaskApi extends TaskApi {
   Future<void> _setValue(String key, String value) =>
       _plugin.setString(key, value);
 
-  void _init() {
+  Future<void> _init() async {
+    // Load tasks from local storage
     final tasksJson = _getValue(kTasksCollectionKey);
     if (tasksJson != null) {
       final tasks = List<Map<dynamic, dynamic>>.from(
@@ -35,13 +42,19 @@ class LocalStorageTaskApi extends TaskApi {
     } else {
       _tasksStreamController.add(const []);
     }
+
+    // Load tasks from API and save to local storage
+    await for (final tasks in _dioTaskApi.getTasks()) {
+      _tasksStreamController.add(tasks);
+      await _setValue(kTasksCollectionKey, json.encode(tasks));
+    }
   }
 
   @override
   Stream<List<Task>> getTasks() => _tasksStreamController.asBroadcastStream();
 
   @override
-  Future<void> saveTask(Task task) {
+  Future<void> saveTask(Task task) async {
     final tasks = [..._tasksStreamController.value];
     final todoIndex = tasks.indexWhere((t) => t.UUID == task.UUID);
     if (todoIndex >= 0) {
@@ -51,7 +64,8 @@ class LocalStorageTaskApi extends TaskApi {
     }
 
     _tasksStreamController.add(tasks);
-    return _setValue(kTasksCollectionKey, json.encode(tasks));
+    await _setValue(kTasksCollectionKey, json.encode(tasks));
+    await _dioTaskApi.saveTask(task); // Save task to API
   }
 
   @override
@@ -63,7 +77,8 @@ class LocalStorageTaskApi extends TaskApi {
     } else {
       tasks.removeAt(todoIndex);
       _tasksStreamController.add(tasks);
-      return _setValue(kTasksCollectionKey, json.encode(tasks));
+      await _setValue(kTasksCollectionKey, json.encode(tasks));
+      await _dioTaskApi.deleteTask(UUID); // Delete task from API
     }
   }
 

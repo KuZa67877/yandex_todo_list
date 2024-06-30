@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import '../../../data/task.dart';
+part of 'task_list_bloc.dart';
 
 class TaskListState extends Equatable {
   final List<Task> tasksList;

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../utils/logger.dart';
 import 'task.dart';
 import 'task_api.dart';
 
@@ -6,6 +7,7 @@ class DioTaskApi extends TaskApi {
   final Dio _dio;
   final String _baseUrl;
   final String _authToken;
+  int revision = 5;
 
   DioTaskApi({required String baseUrl, required String authToken})
       : _dio = Dio(),
@@ -23,32 +25,57 @@ class DioTaskApi extends TaskApi {
             (response.data as List).map((json) => Task.fromJson(json)).toList();
         yield tasks;
       } else {
-        throw Exception('Failed to load tasks');
+        logger.d(
+            'Error: Failed to load tasks. Response is null or status code is not 200. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('Failed to load tasks: $e');
+      if (e is DioException) {
+        logger.d(
+            'Error: Failed to load tasks. DioError: ${e.message}, Status code: ${e.response?.statusCode}');
+      } else {
+        logger.d('Error: Failed to load tasks: $e');
+      }
     }
   }
 
   @override
   Future<void> saveTask(Task task) async {
     try {
+      final headers = {'X-Last-Known-Revision': revision.toString()};
+
       if (task.UUID.isEmpty) {
-        await _dio.post('$_baseUrl/list', data: task.toJson());
+        await _dio.post('$_baseUrl/list',
+            data: task.toJson(), options: Options(headers: headers));
+        revision++;
       } else {
-        await _dio.put('$_baseUrl/list/${task.UUID}', data: task.toJson());
+        await _dio.put('$_baseUrl/list/${task.UUID}',
+            data: task.toJson(), options: Options(headers: headers));
       }
     } catch (e) {
-      throw Exception('Failed to save task: $e');
+      if (e is DioException) {
+        logger.d(
+            'Error: Failed to save task. DioError: ${e.message}, Status code: ${e.response?.statusCode}');
+      } else {
+        logger.d('Error: Failed to save task: $e');
+      }
     }
   }
 
   @override
   Future<void> deleteTask(String UUID) async {
     try {
-      await _dio.delete('$_baseUrl/list/$UUID');
+      final headers = {
+        'X-Last-Known-Revision': '1'
+      }; // Update revision appropriately
+      await _dio.delete('$_baseUrl/list/$UUID',
+          options: Options(headers: headers));
     } catch (e) {
-      throw Exception('Failed to delete task: $e');
+      if (e is DioException) {
+        logger.d(
+            'Error: Failed to delete task. DioError: ${e.message}, Status code: ${e.response?.statusCode}');
+      } else {
+        logger.d('Error: Failed to delete task: $e');
+      }
     }
   }
 
@@ -61,10 +88,18 @@ class DioTaskApi extends TaskApi {
             (response.data as List).map((json) => Task.fromJson(json)).toList();
         return tasks.where((task) => task.isDone).length;
       } else {
-        throw Exception('Failed to load tasks');
+        logger.d(
+            'Error: Failed to load tasks. Response is null or status code is not 200. Status code: ${response.statusCode}');
+        return 0;
       }
     } catch (e) {
-      throw Exception('Failed to load tasks: $e');
+      if (e is DioException) {
+        logger.d(
+            'Error: Failed to load tasks. DioError: ${e.message}, Status code: ${e.response?.statusCode}');
+      } else {
+        logger.d('Error: Failed to load tasks: $e');
+      }
+      return 0;
     }
   }
 

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../resourses/colors.dart';
 
 class AddDeadlineWidget extends StatefulWidget {
-  bool hasDeadline;
+  late final bool hasDeadline;
   AddDeadlineWidget({Key? key, this.hasDeadline = false}) : super(key: key);
 
   @override

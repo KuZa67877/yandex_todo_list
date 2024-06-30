@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
-
 import '../../utils/logger.dart';
 import '../../resourses/colors.dart';
 import '../../data/task.dart';
-import '../home/bloc/task_list_event.dart';
 import '../home/bloc/task_list_bloc.dart';
 import 'bloc/change_task_bloc.dart';
 import 'widgets/add_deadline_task.dart';
@@ -49,7 +47,7 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
                   logger.d('Back to main Screen');
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.close),
+                icon: const Icon(Icons.close),
               ),
               actions: [
                 Padding(
@@ -73,15 +71,15 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
             body: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Align(
                     alignment: Alignment.center,
                     child: TaskTextField(controller: _taskController),
                   ),
                 ),
                 Align(
-                  child: TaskPriorityDropDownMenu(task: state.editedTask),
                   alignment: Alignment.centerLeft,
+                  child: TaskPriorityDropDownMenu(task: state.editedTask),
                 ),
                 AddDeadlineWidget(),
                 const Padding(
@@ -89,7 +87,7 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
                   child: Divider(),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: DeleteTaskButton(
                     callback: deleteTask,
                     color: AppColors.lightColorRed,

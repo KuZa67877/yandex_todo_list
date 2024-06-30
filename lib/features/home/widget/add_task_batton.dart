@@ -5,7 +5,7 @@ import '../../../resourses/colors.dart';
 import '../../change_task/change_task_screen.dart';
 
 class AddNewTaskItemWidget extends StatelessWidget {
-  const AddNewTaskItemWidget({Key? key}) : super(key: key);
+  const AddNewTaskItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

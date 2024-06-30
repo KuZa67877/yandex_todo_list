@@ -5,7 +5,7 @@ import '../../../data/task.dart';
 
 class TaskPriorityDropDownMenu extends StatelessWidget {
   final Task? task;
-  TaskPriorityDropDownMenu({super.key, this.task});
+  const TaskPriorityDropDownMenu({super.key, this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,6 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
             if (newPriority != taskMode) {
               taskMode = newPriority;
             }
-            // } else {
-            //   priority = null;
-            // }
           },
           style: const TextStyle(
             fontSize: 16,

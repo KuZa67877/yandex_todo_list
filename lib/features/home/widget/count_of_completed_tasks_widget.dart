@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../resourses/colors.dart';
 import '../bloc/task_list_bloc.dart';
-import '../bloc/task_list_event.dart';
-import '../bloc/task_list_state.dart';
 
 class CountOfCompetedTasksWidget extends StatelessWidget {
   const CountOfCompetedTasksWidget({super.key});

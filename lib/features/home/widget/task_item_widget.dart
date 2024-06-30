@@ -6,12 +6,11 @@ import '../../change_task/change_task_screen.dart';
 import '../../../data/task.dart';
 import 'package:intl/intl.dart';
 import '../bloc/task_list_bloc.dart';
-import '../bloc/task_list_event.dart';
 
 class TaskItemWidget extends StatelessWidget {
   final Task task;
 
-  const TaskItemWidget({Key? key, required this.task}) : super(key: key);
+  const TaskItemWidget({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +23,10 @@ class TaskItemWidget extends StatelessWidget {
         secondaryBackground: _buildSwipeActionRight(context),
         onDismissed: (direction) {
           if (direction == DismissDirection.startToEnd) {
-            bloc.add(ChangeTaskStatusEvent(task: task, isDone: !task.isDone));
-            logger.d('Task status changed: ${task.taskInfo}');
+            if (!task.isDone) {
+              bloc.add(ChangeTaskStatusEvent(task: task, isDone: true));
+              logger.d('Task marked as done: ${task.taskInfo}');
+            }
           } else if (direction == DismissDirection.endToStart) {
             bloc.add(DeleteTaskEvent(task: task));
             logger.d('Task deleted: ${task.taskInfo}');
@@ -93,9 +94,13 @@ class TaskItemWidget extends StatelessWidget {
   }
 
   Widget _buildSwipeActionLeft(BuildContext context) {
+    final bloc = context.read<TaskListBloc>();
     return GestureDetector(
       onTap: () {
-        logger.d('Completed task: ${task.taskInfo}');
+        if (!task.isDone) {
+          logger.d('Completed task: ${task.taskInfo}');
+          bloc.add(ChangeTaskStatusEvent(task: task, isDone: true));
+        }
       },
       child: Container(
         color: Colors.green,
@@ -114,9 +119,11 @@ class TaskItemWidget extends StatelessWidget {
   }
 
   Widget _buildSwipeActionRight(BuildContext context) {
+    final bloc = context.read<TaskListBloc>();
     return GestureDetector(
       onTap: () {
         logger.d('Deleted task: ${task.taskInfo}');
+        bloc.add(DeleteTaskEvent(task: task));
       },
       child: Container(
         color: Colors.red,
