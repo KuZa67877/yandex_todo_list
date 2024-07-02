@@ -27,7 +27,7 @@ class TaskListState extends Equatable {
       tasksList: tasksList ?? this.tasksList,
       showCompletedTasks: showCompletedTasks ?? this.showCompletedTasks,
       doneTasksCount:
-          tasksList?.where((task) => task.done).length ?? this.doneTasksCount,
+          tasksList?.where((task) => task.done).length ?? doneTasksCount,
     );
   }
 

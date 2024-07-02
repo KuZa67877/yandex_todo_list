@@ -20,10 +20,10 @@ class ToDoMainScreen extends StatelessWidget {
           backgroundColor: AppColors.lightBackPrimary,
           body: CustomScrollView(
             slivers: [
-              MyAppBar(),
-              CountOfCompetedTasksWidget(),
+              const MyAppBar(),
+              const CountOfCompetedTasksWidget(),
               TaskListViewWidget(tasks: state.tasksList),
-              AddNewTaskItemWidget(),
+              const AddNewTaskItemWidget(),
             ],
           ),
           floatingActionButton: FloatingActionButton(
@@ -31,7 +31,7 @@ class ToDoMainScreen extends StatelessWidget {
               addTask(context);
             },
             backgroundColor: AppColors.lightColorBlue,
-            shape: CircleBorder(),
+            shape: const CircleBorder(),
             child: const Icon(
               Icons.add,
               color: Color.fromARGB(255, 255, 255, 255),
@@ -50,7 +50,7 @@ void addTask(BuildContext context) {
     MaterialPageRoute(
       builder: (context) => BlocProvider.value(
         value: BlocProvider.of<TaskListBloc>(context),
-        child: ChangeTaskScreen(),
+        child: const ChangeTaskScreen(),
       ),
     ),
   );

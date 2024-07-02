@@ -105,7 +105,7 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
 
   void saveTask(BuildContext context, ChangeTaskState state) {
     final task = Task(
-      UUID: widget.task?.UUID ?? const Uuid().v4(),
+      id: widget.task?.id ?? const Uuid().v4(),
       taskInfo: _taskController.text,
       taskDeadline: state.editedTask?.taskDeadline,
       taskMode: state.editedTask?.taskMode ?? TaskStatusMode.basic,

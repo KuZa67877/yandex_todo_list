@@ -15,6 +15,6 @@ class ChangeDeadLineEvent extends ChangeTaskEvent {
 }
 
 class DeleteCurrentTaskEvent extends ChangeTaskEvent {
-  final String UUID;
-  const DeleteCurrentTaskEvent(this.UUID);
+  final String id;
+  const DeleteCurrentTaskEvent(this.id);
 }

@@ -5,7 +5,7 @@ import '../../../resourses/colors.dart';
 
 class AddDeadlineWidget extends StatefulWidget {
   late final bool hasDeadline;
-  AddDeadlineWidget({Key? key, this.hasDeadline = false}) : super(key: key);
+  AddDeadlineWidget({super.key, this.hasDeadline = false});
 
   @override
   State<AddDeadlineWidget> createState() => _AddDeadlineWidgetState();

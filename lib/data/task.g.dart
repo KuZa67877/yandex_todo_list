@@ -7,7 +7,7 @@ part of 'task.dart';
 // **************************************************************************
 
 Task _$TaskFromJson(Map<String, dynamic> json) => Task(
-      UUID: json['id'] as String?,
+      id: json['id'] as String?,
       taskInfo: json['text'] as String?,
       taskMode:
           $enumDecodeNullable(_$TaskStatusModeEnumMap, json['importance']) ??
@@ -21,7 +21,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task(
     );
 
 Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
-      'id': instance.UUID,
+      'id': instance.id,
       'text': instance.taskInfo,
       'importance': _$TaskStatusModeEnumMap[instance.taskMode]!,
       'deadline': Task._toJsonNullable(instance.taskDeadline),

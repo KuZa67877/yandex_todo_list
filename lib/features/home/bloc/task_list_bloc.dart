@@ -19,7 +19,6 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
     on<DeleteTaskEvent>(_onDeleteTask);
     on<ToggleShowCompletedTasksEvent>(_onToggleShowCompletedTasks);
 
-    // Load tasks only once when the bloc is first created
     if (!_tasksLoaded) {
       _tasksLoaded = true;
       add(LoadTasksEvent());
@@ -45,10 +44,8 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
     final updatedTask = event.task.copyWith(isDone: event.isDone);
     await taskApi.saveTask(updatedTask);
 
-    // Update local state immediately
     final updatedTasksList = List<Task>.from(state.tasksList);
-    final taskIndex =
-        updatedTasksList.indexWhere((t) => t.UUID == event.task.UUID);
+    final taskIndex = updatedTasksList.indexWhere((t) => t.id == event.task.id);
     if (taskIndex != -1) {
       updatedTasksList[taskIndex] = updatedTask;
       emit(state.copyWith(tasksList: updatedTasksList));
@@ -57,11 +54,10 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
 
   Future<void> _onDeleteTask(
       DeleteTaskEvent event, Emitter<TaskListState> emit) async {
-    await taskApi.deleteTask(event.task.UUID);
+    await taskApi.deleteTask(event.task.id);
 
-    // Update local state immediately
     final updatedTasksList = List<Task>.from(state.tasksList)
-      ..removeWhere((t) => t.UUID == event.task.UUID);
+      ..removeWhere((t) => t.id == event.task.id);
     emit(state.copyWith(tasksList: updatedTasksList));
   }
 

@@ -26,7 +26,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final TaskApi taskApi;
 
-  const MyApp({Key? key, required this.taskApi}) : super(key: key);
+  const MyApp({super.key, required this.taskApi});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-//TODO - переделать под темы текста
 class FontSize {
   static const double largeTitleFontSize = 32;
   static const double titleFontSize = 20;

@@ -11,7 +11,7 @@ enum TaskStatusMode { low, basic, important }
 @JsonSerializable()
 class Task extends Equatable {
   @JsonKey(name: 'id')
-  final String UUID;
+  final String id;
   @JsonKey(name: 'text')
   final String taskInfo;
   @JsonKey(name: 'importance')
@@ -31,7 +31,7 @@ class Task extends Equatable {
   final String lastUpdatedBy;
 
   Task({
-    String? UUID,
+    String? id,
     String? taskInfo,
     this.taskMode = TaskStatusMode.basic,
     this.taskDeadline,
@@ -40,14 +40,14 @@ class Task extends Equatable {
     DateTime? createdAt,
     DateTime? changedAt,
     String? lastUpdatedBy,
-  })  : UUID = UUID ?? Uuid().v4(),
+  })  : id = id ?? const Uuid().v4(),
         taskInfo = taskInfo ?? '',
         createdAt = createdAt ?? DateTime.now(),
         changedAt = changedAt ?? DateTime.now(),
         lastUpdatedBy = lastUpdatedBy ?? '';
 
   Task copyWith({
-    String? UUID,
+    String? id,
     String? taskInfo,
     TaskStatusMode? taskMode,
     DateTime? taskDeadline,
@@ -58,11 +58,11 @@ class Task extends Equatable {
     String? lastUpdatedBy,
   }) {
     return Task(
-      UUID: UUID ?? this.UUID,
+      id: id ?? this.id,
       taskInfo: taskInfo ?? this.taskInfo,
       taskMode: taskMode ?? this.taskMode,
       taskDeadline: taskDeadline ?? this.taskDeadline,
-      done: isDone ?? this.done,
+      done: isDone ?? done,
       color: color ?? this.color,
       createdAt: createdAt ?? this.createdAt,
       changedAt: changedAt ?? this.changedAt,
@@ -75,7 +75,7 @@ class Task extends Equatable {
 
   @override
   List<Object?> get props => [
-        UUID,
+        id,
         taskInfo,
         taskMode,
         taskDeadline,

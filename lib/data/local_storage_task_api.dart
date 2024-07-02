@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yandex_to_do_app/utils/logger.dart';
+
 import 'dart:convert';
+import '../utils/logger.dart';
 import 'task.dart';
 import 'task_api.dart';
 import 'task_api_dio.dart';
@@ -10,7 +11,7 @@ import 'task_api_dio.dart';
 class LocalStorageTaskApi extends TaskApi {
   final SharedPreferences _plugin;
   final DioTaskApi _dioTaskApi;
-  bool _tasksLoadedFromApi = false;
+  static const String _tasksLoadedFromApiKey = '_tasks_loaded_from_api';
 
   LocalStorageTaskApi(
       {required SharedPreferences plugin, required DioTaskApi dioTaskApi})
@@ -30,6 +31,11 @@ class LocalStorageTaskApi extends TaskApi {
   Future<void> _setValue(String key, String value) =>
       _plugin.setString(key, value);
 
+  Future<void> _setBoolValue(String key, bool value) =>
+      _plugin.setBool(key, value);
+
+  bool _getBoolValue(String key) => _plugin.getBool(key) ?? false;
+
   Future<void> _init() async {
     final tasksJson = _getValue(kTasksCollectionKey);
     if (tasksJson != null) {
@@ -42,17 +48,19 @@ class LocalStorageTaskApi extends TaskApi {
     } else {
       _tasksStreamController.add(const []);
     }
+    await _loadTasksFromApi();
+  }
 
-    // Load tasks from API only if they haven't been loaded yet
-    if (!_tasksLoadedFromApi) {
-      _tasksLoadedFromApi = true;
-      _dioTaskApi.getTasks().listen((tasks) async {
-        final allTasks = [..._tasksStreamController.value, ...tasks];
-        _tasksStreamController.add(allTasks);
-        await _setValue(kTasksCollectionKey,
-            json.encode(allTasks.map((task) => task.toJson()).toList()));
-      });
-    }
+  Future<void> _loadTasksFromApi() async {
+    final tasks = await _dioTaskApi.getTasks().first;
+    final allTasks = [
+      ..._tasksStreamController.value,
+      if (_getBoolValue(_tasksLoadedFromApiKey) == false) ...tasks
+    ];
+    _tasksStreamController.add(allTasks);
+    await _setValue(kTasksCollectionKey,
+        json.encode(allTasks.map((task) => task.toJson()).toList()));
+    await _setBoolValue(_tasksLoadedFromApiKey, true);
   }
 
   @override
@@ -61,7 +69,7 @@ class LocalStorageTaskApi extends TaskApi {
   @override
   Future<void> saveTask(Task task) async {
     final tasks = [..._tasksStreamController.value];
-    final todoIndex = tasks.indexWhere((t) => t.UUID == task.UUID);
+    final todoIndex = tasks.indexWhere((t) => t.id == task.id);
     if (todoIndex >= 0) {
       tasks[todoIndex] = task;
     } else {
@@ -71,7 +79,7 @@ class LocalStorageTaskApi extends TaskApi {
     _tasksStreamController.add(tasks);
     await _setValue(kTasksCollectionKey,
         json.encode(tasks.map((task) => task.toJson()).toList()));
-    await _dioTaskApi.saveTask(task); // Save task to API
+    await _dioTaskApi.saveTask(task);
   }
 
   @override
@@ -82,13 +90,13 @@ class LocalStorageTaskApi extends TaskApi {
     _tasksStreamController.add(tasks);
     await _setValue(kTasksCollectionKey,
         json.encode(tasks.map((task) => task.toJson()).toList()));
-    await _dioTaskApi.addTask(task); // Add task to API
+    await _dioTaskApi.addTask(task);
   }
 
   @override
-  Future<void> deleteTask(String UUID) async {
+  Future<void> deleteTask(String id) async {
     final tasks = [..._tasksStreamController.value];
-    final todoIndex = tasks.indexWhere((t) => t.UUID == UUID);
+    final todoIndex = tasks.indexWhere((t) => t.id == id);
     if (todoIndex == -1) {
       logger.d("Error with delete task");
     } else {
@@ -96,7 +104,7 @@ class LocalStorageTaskApi extends TaskApi {
       _tasksStreamController.add(tasks);
       await _setValue(kTasksCollectionKey,
           json.encode(tasks.map((task) => task.toJson()).toList()));
-      await _dioTaskApi.deleteTask(UUID); // Delete task from API
+      await _dioTaskApi.deleteTask(id);
     }
   }
 

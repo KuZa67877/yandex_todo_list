@@ -78,7 +78,7 @@ class DioTaskApi extends TaskApi {
       final headers = {'X-Last-Known-Revision': revision.toString()};
 
       final response = await _dio.put(
-        '$_baseUrl/list/${task.UUID}',
+        '$_baseUrl/list/${task.id}',
         data: {'element': task.toJson()},
         options: Options(headers: headers),
       );
@@ -96,11 +96,11 @@ class DioTaskApi extends TaskApi {
   }
 
   @override
-  Future<void> deleteTask(String UUID) async {
+  Future<void> deleteTask(String id) async {
     try {
       final headers = {'X-Last-Known-Revision': revision.toString()};
       final response = await _dio.delete(
-        '$_baseUrl/list/$UUID',
+        '$_baseUrl/list/$id',
         options: Options(headers: headers),
       );
       final data = response.data as Map<String, dynamic>;

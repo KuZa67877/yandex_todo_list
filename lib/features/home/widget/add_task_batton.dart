@@ -18,7 +18,7 @@ class AddNewTaskItemWidget extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChangeTaskScreen(),
+                builder: (context) => const ChangeTaskScreen(),
               ),
             );
           },

@@ -18,7 +18,7 @@ class TaskItemWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Dismissible(
-        key: Key(task.UUID),
+        key: Key(task.id),
         background: _buildSwipeActionLeft(context),
         secondaryBackground: _buildSwipeActionRight(context),
         onDismissed: (direction) {
