@@ -9,7 +9,7 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TaskStatusMode taskMode = task?.taskMode ?? TaskStatusMode.standartMode;
+    TaskStatusMode taskMode = task?.taskMode ?? TaskStatusMode.basic;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: ButtonTheme(
@@ -50,7 +50,7 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
           ),
           items: const <DropdownMenuItem>[
             DropdownMenuItem(
-              value: TaskStatusMode.standartMode,
+              value: TaskStatusMode.basic,
               child: Text(
                 'Нет',
                 style: TextStyle(
@@ -60,7 +60,7 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
               ),
             ),
             DropdownMenuItem(
-              value: TaskStatusMode.lowPriorityMode,
+              value: TaskStatusMode.low,
               child: Text(
                 'Низкий',
                 style: TextStyle(
@@ -70,7 +70,7 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
               ),
             ),
             DropdownMenuItem(
-              value: TaskStatusMode.highPriorityMode,
+              value: TaskStatusMode.important,
               child: Text(
                 '!! Высокий',
                 style: TextStyle(

@@ -23,7 +23,7 @@ class TaskItemWidget extends StatelessWidget {
         secondaryBackground: _buildSwipeActionRight(context),
         onDismissed: (direction) {
           if (direction == DismissDirection.startToEnd) {
-            if (!task.isDone) {
+            if (task.done == false) {
               bloc.add(ChangeTaskStatusEvent(task: task, isDone: true));
               logger.d('Task marked as done: ${task.taskInfo}');
             }
@@ -44,12 +44,12 @@ class TaskItemWidget extends StatelessWidget {
                 Text(
                   '${taskStatus(task.taskMode)}${task.taskInfo}',
                   style: TextStyle(
-                    decoration: task.isDone
+                    decoration: task.done
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: task.isDone
+                    color: task.done
                         ? AppColors.lightLabelTertiary
                         : AppColors.lightLabelPrimary,
                   ),
@@ -65,9 +65,8 @@ class TaskItemWidget extends StatelessWidget {
               ],
             ),
             leading: Icon(
-              task.isDone ? Icons.check_box : Icons.crop_square_outlined,
-              color: task.taskMode == TaskStatusMode.highPriorityMode &&
-                      !task.isDone
+              task.done ? Icons.check_box : Icons.crop_square_outlined,
+              color: task.taskMode == TaskStatusMode.important && !task.done
                   ? AppColors.lightColorRed
                   : AppColors.lightLabelTertiary,
             ),
@@ -97,7 +96,7 @@ class TaskItemWidget extends StatelessWidget {
     final bloc = context.read<TaskListBloc>();
     return GestureDetector(
       onTap: () {
-        if (!task.isDone) {
+        if (!task.done) {
           logger.d('Completed task: ${task.taskInfo}');
           bloc.add(ChangeTaskStatusEvent(task: task, isDone: true));
         }
@@ -144,9 +143,9 @@ class TaskItemWidget extends StatelessWidget {
 
 String taskStatus(TaskStatusMode mode) {
   switch (mode) {
-    case TaskStatusMode.highPriorityMode:
+    case TaskStatusMode.important:
       return '!! ';
-    case TaskStatusMode.lowPriorityMode:
+    case TaskStatusMode.low:
       return '↓ ';
     default:
       return '';

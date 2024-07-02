@@ -6,7 +6,7 @@ class ChangeTaskState {
   final TaskStatusMode status;
 
   ChangeTaskState({
-    this.status = TaskStatusMode.standartMode,
+    this.status = TaskStatusMode.basic,
     this.haveTask = false,
     this.editedTask,
   });

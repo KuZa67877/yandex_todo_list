@@ -68,32 +68,34 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
                 )
               ],
             ),
-            body: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: TaskTextField(controller: _taskController),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: TaskTextField(controller: _taskController),
+                    ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TaskPriorityDropDownMenu(task: state.editedTask),
-                ),
-                AddDeadlineWidget(),
-                const Padding(
-                  padding: EdgeInsets.only(top: 24),
-                  child: Divider(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: DeleteTaskButton(
-                    callback: deleteTask,
-                    color: AppColors.lightColorRed,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TaskPriorityDropDownMenu(task: state.editedTask),
                   ),
-                )
-              ],
+                  AddDeadlineWidget(),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 24),
+                    child: Divider(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: DeleteTaskButton(
+                      callback: () => deleteTask(),
+                      color: AppColors.lightColorRed,
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },
@@ -106,13 +108,25 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
       UUID: widget.task?.UUID ?? const Uuid().v4(),
       taskInfo: _taskController.text,
       taskDeadline: state.editedTask?.taskDeadline,
-      taskMode: state.editedTask?.taskMode ?? TaskStatusMode.standartMode,
-      isDone: state.editedTask?.isDone ?? false,
+      taskMode: state.editedTask?.taskMode ?? TaskStatusMode.basic,
+      done: state.editedTask?.done ?? false,
     );
-    context.read<TaskListBloc>().add(AddTaskEvent(task: task));
+    if (widget.task == null) {
+      context.read<TaskListBloc>().add(AddTaskEvent(task: task));
+    } else {
+      context
+          .read<TaskListBloc>()
+          .add(ChangeTaskStatusEvent(task: task, isDone: task.done));
+    }
     Navigator.pop(context);
     logger.d('Current task: ${task.taskInfo}');
   }
 
-  void deleteTask() {}
+  void deleteTask() {
+    if (widget.task != null) {
+      context.read<TaskListBloc>().add(DeleteTaskEvent(task: widget.task!));
+    }
+
+    Navigator.pop(context);
+  }
 }

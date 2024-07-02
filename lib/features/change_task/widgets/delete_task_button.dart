@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class DeleteTaskButton extends StatelessWidget {
   final Color color;
-  final void Function()? callback;
+  final void Function() callback;
   const DeleteTaskButton(
       {super.key, required this.color, required this.callback});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: callback,
       child: Row(
         children: [
           Icon(

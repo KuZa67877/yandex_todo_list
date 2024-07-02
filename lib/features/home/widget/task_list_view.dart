@@ -15,12 +15,15 @@ class TaskListViewWidget extends StatelessWidget {
       builder: (context, state) {
         final filteredTasks = state.showCompletedTasks
             ? state.tasksList
-            : state.tasksList.where((task) => !task.isDone).toList();
+            : state.tasksList.where((task) => !task.done).toList();
 
         return SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              return TaskItemWidget(task: filteredTasks[index]);
+              return TaskItemWidget(
+                task: filteredTasks[index],
+                key: UniqueKey(),
+              );
             },
             childCount: filteredTasks.length,
           ),

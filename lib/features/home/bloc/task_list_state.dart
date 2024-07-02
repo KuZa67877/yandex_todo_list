@@ -14,7 +14,7 @@ class TaskListState extends Equatable {
   factory TaskListState.initial() {
     return const TaskListState(
       tasksList: [],
-      showCompletedTasks: true,
+      showCompletedTasks: false,
       doneTasksCount: 0,
     );
   }
@@ -27,7 +27,7 @@ class TaskListState extends Equatable {
       tasksList: tasksList ?? this.tasksList,
       showCompletedTasks: showCompletedTasks ?? this.showCompletedTasks,
       doneTasksCount:
-          tasksList?.where((task) => task.isDone).length ?? this.doneTasksCount,
+          tasksList?.where((task) => task.done).length ?? this.doneTasksCount,
     );
   }
 

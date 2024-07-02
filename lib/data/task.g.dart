@@ -7,27 +7,33 @@ part of 'task.dart';
 // **************************************************************************
 
 Task _$TaskFromJson(Map<String, dynamic> json) => Task(
-      UUID: json['UUID'] as String,
-      taskInfo: json['taskInfo'] as String,
-      isDone: json['isDone'] as bool? ?? false,
+      UUID: json['id'] as String?,
+      taskInfo: json['text'] as String?,
       taskMode:
-          $enumDecodeNullable(_$TaskStatusModeEnumMap, json['taskMode']) ??
-              TaskStatusMode.standartMode,
-      taskDeadline: json['taskDeadline'] == null
-          ? null
-          : DateTime.parse(json['taskDeadline'] as String),
+          $enumDecodeNullable(_$TaskStatusModeEnumMap, json['importance']) ??
+              TaskStatusMode.basic,
+      taskDeadline: Task._fromJsonNullable((json['deadline'] as num?)?.toInt()),
+      done: json['done'] as bool? ?? false,
+      color: json['color'] as String? ?? "#FFFFFF",
+      createdAt: Task._fromJson((json['created_at'] as num).toInt()),
+      changedAt: Task._fromJson((json['changed_at'] as num).toInt()),
+      lastUpdatedBy: json['last_updated_by'] as String?,
     );
 
 Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
-      'UUID': instance.UUID,
-      'isDone': instance.isDone,
-      'taskInfo': instance.taskInfo,
-      'taskMode': _$TaskStatusModeEnumMap[instance.taskMode]!,
-      'taskDeadline': instance.taskDeadline?.toIso8601String(),
+      'id': instance.UUID,
+      'text': instance.taskInfo,
+      'importance': _$TaskStatusModeEnumMap[instance.taskMode]!,
+      'deadline': Task._toJsonNullable(instance.taskDeadline),
+      'done': instance.done,
+      'color': instance.color,
+      'created_at': Task._toJson(instance.createdAt),
+      'changed_at': Task._toJson(instance.changedAt),
+      'last_updated_by': instance.lastUpdatedBy,
     };
 
 const _$TaskStatusModeEnumMap = {
-  TaskStatusMode.standartMode: 'standartMode',
-  TaskStatusMode.highPriorityMode: 'highPriorityMode',
-  TaskStatusMode.lowPriorityMode: 'lowPriorityMode',
+  TaskStatusMode.low: 'low',
+  TaskStatusMode.basic: 'basic',
+  TaskStatusMode.important: 'important',
 };
