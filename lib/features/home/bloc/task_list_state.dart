@@ -22,12 +22,12 @@ class TaskListState extends Equatable {
   TaskListState copyWith({
     List<Task>? tasksList,
     bool? showCompletedTasks,
+    int? doneTasksCount,
   }) {
     return TaskListState(
       tasksList: tasksList ?? this.tasksList,
       showCompletedTasks: showCompletedTasks ?? this.showCompletedTasks,
-      doneTasksCount:
-          tasksList?.where((task) => task.done).length ?? doneTasksCount,
+      doneTasksCount: doneTasksCount ?? this.doneTasksCount,
     );
   }
 

@@ -18,3 +18,8 @@ class DeleteCurrentTaskEvent extends ChangeTaskEvent {
   final String id;
   const DeleteCurrentTaskEvent(this.id);
 }
+
+class ChangePriorityEvent extends ChangeTaskEvent {
+  final TaskStatusMode priority;
+  const ChangePriorityEvent(this.priority);
+}

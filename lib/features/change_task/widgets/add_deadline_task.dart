@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../resourses/colors.dart';
+import '../bloc/change_task_bloc.dart';
 
 class AddDeadlineWidget extends StatefulWidget {
-  late final bool hasDeadline;
+  bool hasDeadline;
+
   AddDeadlineWidget({super.key, this.hasDeadline = false});
 
   @override
@@ -34,6 +37,7 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
       setState(() {
         selectedDate = picked;
         widget.hasDeadline = true;
+        context.read<ChangeTaskBloc>().add(ChangeDeadLineEvent(picked));
       });
     }
   }
@@ -43,6 +47,7 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
       if (!newValue) {
         selectedDate = null;
         widget.hasDeadline = false;
+        context.read<ChangeTaskBloc>().add(ChangeDeadLineEvent(DateTime.now()));
       } else {
         _selectDate(context);
       }

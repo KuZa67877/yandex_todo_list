@@ -30,13 +30,21 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
     if (widget.task != null) {
       _taskController.text = widget.task!.taskInfo;
       _changeTaskBloc.add(EditTaskEvent(widget.task!));
+    } else {
+      _changeTaskBloc.add(EditTaskEvent(Task(
+        id: const Uuid().v4(),
+        taskInfo: '',
+        taskDeadline: null,
+        taskMode: TaskStatusMode.basic,
+        done: false,
+      )));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _changeTaskBloc,
+    return BlocProvider.value(
+      value: _changeTaskBloc,
       child: BlocBuilder<ChangeTaskBloc, ChangeTaskState>(
         builder: (context, state) {
           return Scaffold(

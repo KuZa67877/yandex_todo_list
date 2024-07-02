@@ -58,17 +58,22 @@ class TaskItemWidget extends StatelessWidget {
                   Text(
                     FormatDate.toDmmmmyyyy(task.taskDeadline!),
                     style: const TextStyle(
-                      color: AppColors.lightBackSecondary,
+                      color: AppColors.lightLabelPrimary,
                       fontSize: 12,
                     ),
                   ),
               ],
             ),
-            leading: Icon(
-              task.done ? Icons.check_box : Icons.crop_square_outlined,
-              color: task.taskMode == TaskStatusMode.important && !task.done
-                  ? AppColors.lightColorRed
-                  : AppColors.lightLabelTertiary,
+            leading: IconButton(
+              onPressed: () {
+                bloc.add(ChangeTaskStatusEvent(task: task, isDone: !task.done));
+              },
+              icon: Icon(
+                task.done ? Icons.check_box : Icons.crop_square_outlined,
+                color: task.taskMode == TaskStatusMode.important && !task.done
+                    ? AppColors.lightColorRed
+                    : AppColors.lightLabelTertiary,
+              ),
             ),
             trailing: IconButton(
               onPressed: () async {

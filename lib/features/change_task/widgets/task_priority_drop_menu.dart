@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../resourses/colors.dart';
 import '../../../data/task.dart';
+import '../bloc/change_task_bloc.dart';
 
 class TaskPriorityDropDownMenu extends StatelessWidget {
   final Task? task;
@@ -17,7 +19,9 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
           value: taskMode,
           onChanged: (newPriority) {
             if (newPriority != taskMode) {
-              taskMode = newPriority;
+              context
+                  .read<ChangeTaskBloc>()
+                  .add(ChangePriorityEvent(newPriority!));
             }
           },
           style: const TextStyle(
