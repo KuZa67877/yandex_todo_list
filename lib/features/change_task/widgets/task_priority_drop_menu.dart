@@ -5,6 +5,8 @@ import '../../../resourses/colors.dart';
 import '../../../data/task.dart';
 import '../bloc/change_task_bloc.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class TaskPriorityDropDownMenu extends StatelessWidget {
   final Task? task;
   const TaskPriorityDropDownMenu({super.key, this.task});
@@ -28,36 +30,36 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
             fontSize: 16,
             color: AppColors.lightLabelTertiary,
           ),
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             enabled: false,
-            disabledBorder: UnderlineInputBorder(
+            disabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
                 color: AppColors.lightSupportSeparator,
                 width: 0.5,
                 style: BorderStyle.solid,
               ),
             ),
-            contentPadding: EdgeInsets.only(bottom: 16.0, top: 16.0),
-            labelText: 'Важность',
-            labelStyle: TextStyle(
+            contentPadding: const EdgeInsets.only(bottom: 16.0, top: 16.0),
+            labelText: AppLocalizations.of(context).taskImportance,
+            labelStyle: const TextStyle(
               fontSize: 22.0,
               color: AppColors.lightLabelPrimary,
             ),
           ),
           iconSize: 0,
-          hint: const Text(
-            'Нет',
-            style: TextStyle(
+          hint: Text(
+            AppLocalizations.of(context).taskImportanceBasic,
+            style: const TextStyle(
               fontSize: 16,
               color: AppColors.lightLabelTertiary,
             ),
           ),
-          items: const <DropdownMenuItem>[
+          items: <DropdownMenuItem>[
             DropdownMenuItem(
               value: TaskStatusMode.basic,
               child: Text(
-                'Нет',
-                style: TextStyle(
+                AppLocalizations.of(context).taskImportanceBasic,
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.lightLabelPrimary,
                 ),
@@ -66,8 +68,8 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
             DropdownMenuItem(
               value: TaskStatusMode.low,
               child: Text(
-                'Низкий',
-                style: TextStyle(
+                AppLocalizations.of(context).taskImportanceLow,
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.lightLabelPrimary,
                 ),
@@ -76,8 +78,8 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
             DropdownMenuItem(
               value: TaskStatusMode.important,
               child: Text(
-                '!! Высокий',
-                style: TextStyle(
+                AppLocalizations.of(context).taskImportanceImportant,
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.lightColorRed,
                 ),

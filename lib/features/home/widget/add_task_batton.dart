@@ -4,6 +4,8 @@ import '../../../utils/logger.dart';
 import '../../../resourses/colors.dart';
 import '../../change_task/change_task_screen.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AddNewTaskItemWidget extends StatelessWidget {
   const AddNewTaskItemWidget({super.key});
 
@@ -27,12 +29,12 @@ class AddNewTaskItemWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               color: Colors.white,
             ),
-            child: const ListTile(
+            child: ListTile(
               title: Padding(
-                padding: EdgeInsets.only(left: 42),
+                padding: const EdgeInsets.only(left: 42),
                 child: Text(
-                  'Новое',
-                  style: TextStyle(
+                  AppLocalizations.of(context).addTaskTooltip,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: AppColors.lightLabelTertiary,

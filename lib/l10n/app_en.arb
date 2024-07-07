@@ -1,0 +1,24 @@
+{
+  "@@locale": "en",
+  "appTitle": "My Tasks",
+  "addTaskTooltip": "Add task",
+  "tasksDone": "{count} Completed",
+  "@tasksDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "createTask": "Create Task",
+  "save": "Save",
+  "remove": "Delete",
+  "taskTextHint": "What needs to be done...",
+  "taskImportance": "Priority",
+  "taskImportanceLow": "Low",
+  "taskImportanceBasic": "None",
+  "taskImportanceImportant": "High !!",
+  "taskDeadline": "Due By",
+  "done": "DONE",
+  "cancel": "CANCEL"
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class DeleteTaskButton extends StatelessWidget {
   final Color color;
   final void Function() callback;
@@ -19,7 +21,7 @@ class DeleteTaskButton extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 12),
             child: Text(
-              "Удалить",
+              AppLocalizations.of(context).remove,
               style: TextStyle(
                   fontWeight: FontWeight.w400, fontSize: 16, color: color),
             ),

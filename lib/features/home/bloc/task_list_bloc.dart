@@ -29,7 +29,10 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
       LoadTasksEvent event, Emitter<TaskListState> emit) async {
     await emit.forEach<List<Task>>(
       taskApi.getTasks(),
-      onData: (tasks) => state.copyWith(tasksList: tasks),
+      onData: (tasks) => state.copyWith(
+        tasksList: tasks,
+        doneTasksCount: tasks.where((task) => task.done).length,
+      ),
     );
   }
 

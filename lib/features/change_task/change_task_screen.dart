@@ -11,6 +11,8 @@ import 'widgets/delete_task_button.dart';
 import 'widgets/task_priority_drop_menu.dart';
 import 'widgets/task_textfield.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class ChangeTaskScreen extends StatefulWidget {
   final Task? task;
   const ChangeTaskScreen({super.key, this.task});
@@ -64,9 +66,9 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
                     onPressed: () {
                       saveTask(context, state);
                     },
-                    child: const Text(
-                      "СОХРАНИТЬ",
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context).save,
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: AppColors.lightColorBlue,
