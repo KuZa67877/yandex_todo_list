@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../utils/logger.dart';
-import '../../../resourses/colors.dart';
-import '../../change_task/change_task_screen.dart';
-import '../../../data/task.dart';
 import 'package:intl/intl.dart';
-import '../bloc/task_list_bloc.dart';
+
+import '../../../../core/domain/entities/task.dart';
+import '../../../../core/resourses/colors.dart';
+import '../../../../core/utils/logger.dart';
+import '../../../../routes/router_delegate.dart';
+import '../../bloc/task_list_bloc.dart';
 
 class TaskItemWidget extends StatelessWidget {
   final Task task;
@@ -15,6 +16,9 @@ class TaskItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<TaskListBloc>();
+    final ToDoRouterDelegate routerDelegate =
+        Router.of(context).routerDelegate as ToDoRouterDelegate;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Dismissible(
@@ -79,12 +83,7 @@ class TaskItemWidget extends StatelessWidget {
               onPressed: () async {
                 logger.d(
                     'Navigating to edit task screen for task: ${task.taskInfo}');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChangeTaskScreen(task: task),
-                  ),
-                );
+                routerDelegate.editTask(task);
               },
               icon: const Icon(
                 Icons.info_outline,

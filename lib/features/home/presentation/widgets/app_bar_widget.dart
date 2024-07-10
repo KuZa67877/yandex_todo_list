@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yandex_to_do_app/resourses/colors.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../../core/resourses/colors.dart';
 
 class MyAppBar extends StatelessWidget {
   const MyAppBar({super.key});

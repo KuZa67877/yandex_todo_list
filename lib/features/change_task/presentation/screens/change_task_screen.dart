@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
-import '../../utils/logger.dart';
-import '../../resourses/colors.dart';
-import '../../data/task.dart';
-import '../home/bloc/task_list_bloc.dart';
-import 'bloc/change_task_bloc.dart';
-import 'widgets/add_deadline_task.dart';
-import 'widgets/delete_task_button.dart';
-import 'widgets/task_priority_drop_menu.dart';
-import 'widgets/task_textfield.dart';
+import '../../../../core/utils/logger.dart';
+import '../../../../core/resourses/colors.dart';
+import '../../../../core/domain/entities/task.dart';
+import '../../../home/bloc/task_list_bloc.dart';
+import '../../bloc/change_task_bloc.dart';
+import '../widgets/add_deadline_task.dart';
+import '../widgets/delete_task_button.dart';
+import '../widgets/task_priority_drop_menu.dart';
+import '../widgets/task_textfield.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangeTaskScreen extends StatefulWidget {
   final Task? task;
-  const ChangeTaskScreen({super.key, this.task});
+  const ChangeTaskScreen(
+      {super.key = const ValueKey("change_task_screen"), this.task});
 
   @override
   State<ChangeTaskScreen> createState() => _ChangeTaskScreenState();
@@ -63,6 +64,7 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: TextButton(
+                    key: const ValueKey("save_task"),
                     onPressed: () {
                       saveTask(context, state);
                     },
@@ -85,14 +87,20 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Align(
                       alignment: Alignment.center,
-                      child: TaskTextField(controller: _taskController),
+                      child: TaskTextField(
+                          controller: _taskController,
+                          key: const ValueKey("text_field")),
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TaskPriorityDropDownMenu(task: state.editedTask),
                   ),
-                  AddDeadlineWidget(),
+                  AddDeadlineWidget(
+                    hasDeadline: state.editedTask?.taskDeadline != null,
+                    initialDate: state
+                        .editedTask?.taskDeadline, // Передаем начальную дату
+                  ),
                   const Padding(
                     padding: EdgeInsets.only(top: 24),
                     child: Divider(),

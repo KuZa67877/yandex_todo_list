@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/task.dart';
+import '../../../core/domain/entities/task.dart';
 
 part 'change_task_event.dart';
 part 'change_task_state.dart';

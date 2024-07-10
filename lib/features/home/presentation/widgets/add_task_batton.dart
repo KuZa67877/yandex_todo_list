@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/logger.dart';
-import '../../../resourses/colors.dart';
-import '../../change_task/change_task_screen.dart';
-
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../../core/resourses/colors.dart';
+import '../../../../core/utils/logger.dart';
+import '../../../../routes/router_delegate.dart';
 
 class AddNewTaskItemWidget extends StatelessWidget {
   const AddNewTaskItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ToDoRouterDelegate routerDelegate =
+        Router.of(context).routerDelegate as ToDoRouterDelegate;
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: InkWell(
           onTap: () async {
             logger.d('Navigating to edit task screen ');
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ChangeTaskScreen(),
-              ),
-            );
+            routerDelegate.addTask();
           },
           child: Container(
             decoration: BoxDecoration(
