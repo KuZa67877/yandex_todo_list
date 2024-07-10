@@ -49,9 +49,8 @@ class TaskRepositoryImpl extends TaskRepository {
   @override
   Future<void> addTask(Task task) async {
     try {
-      await localDataSource.addTask(task); // Save locally first
-      await _syncLocalToRemote(); // Attempt to sync with remote
-      // If syncing fails, tasks will remain saved locally
+      await localDataSource.addTask(task);
+      await _syncLocalToRemote();
     } catch (e) {
       logger.e("Failed to add task: $e");
     }
@@ -60,9 +59,8 @@ class TaskRepositoryImpl extends TaskRepository {
   @override
   Future<void> updateTask(Task task) async {
     try {
-      await localDataSource.updateTask(task); // Update locally first
-      await _syncLocalToRemote(); // Attempt to sync with remote
-      // If syncing fails, tasks will remain updated locally
+      await localDataSource.updateTask(task);
+      await _syncLocalToRemote();
     } catch (e) {
       logger.e("Failed to update task: $e");
     }
@@ -71,9 +69,8 @@ class TaskRepositoryImpl extends TaskRepository {
   @override
   Future<void> deleteTask(String id) async {
     try {
-      await localDataSource.deleteTask(id); // Delete locally first
-      await _syncLocalToRemote(); // Attempt to sync with remote
-      // If syncing fails, tasks will remain deleted locally
+      await localDataSource.deleteTask(id);
+      await _syncLocalToRemote();
     } catch (e) {
       logger.e("Failed to delete task: $e");
     }

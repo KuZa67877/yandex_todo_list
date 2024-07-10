@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/domain/entities/task.dart';
 import '../../../core/domain/repository/task_repository.dart';
+import '../../../core/utils/logger.dart';
 part 'task_list_event.dart';
 part 'task_list_state.dart';
 
@@ -70,7 +71,6 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
       tasksList: updatedTasksList,
       doneTasksCount: updatedTasksList.where((task) => task.done).length,
     ));
-    //await _patchTasks(emit);
   }
 
   void _onToggleShowCompletedTasks(
@@ -82,7 +82,7 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
     try {
       await taskRepository.patchTasks(state.tasksList);
     } catch (e) {
-      // Handle error
+      logger.e("Tasks patch error");
     }
   }
 }

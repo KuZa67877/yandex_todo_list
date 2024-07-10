@@ -98,8 +98,7 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
                   ),
                   AddDeadlineWidget(
                     hasDeadline: state.editedTask?.taskDeadline != null,
-                    initialDate: state
-                        .editedTask?.taskDeadline, // Передаем начальную дату
+                    initialDate: state.editedTask?.taskDeadline,
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 24),

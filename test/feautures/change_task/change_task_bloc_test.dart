@@ -29,7 +29,7 @@ void main() {
 
   group('ChangeTaskBloc', () {
     test('initial state is ChangeTaskState()', () {
-      expect(changeTaskBloc.state, ChangeTaskState());
+      expect(changeTaskBloc.state, const ChangeTaskState());
     });
 
     blocTest<ChangeTaskBloc, ChangeTaskState>(
@@ -50,18 +50,19 @@ void main() {
       build: () => changeTaskBloc,
       seed: () {
         final task = roundDateTimes(Task(id: '1', taskInfo: 'test task'));
-        return ChangeTaskState().copyWith(editedTask: task, haveTask: true);
+        return const ChangeTaskState()
+            .copyWith(editedTask: task, haveTask: true);
       },
       act: (bloc) {
         final newDeadline =
-            roundToSeconds(DateTime.now().add(Duration(days: 1)));
+            roundToSeconds(DateTime.now().add(const Duration(days: 1)));
         bloc.add(ChangeDeadLineEvent(newDeadline));
       },
       verify: (bloc) {
         final task = roundDateTimes(Task(id: '1', taskInfo: 'test task'));
         final updatedTask = task.copyWith(
             taskDeadline:
-                roundToSeconds(DateTime.now().add(Duration(days: 1))));
+                roundToSeconds(DateTime.now().add(const Duration(days: 1))));
         expect(bloc.state.editedTask, roundDateTimes(updatedTask));
       },
     );

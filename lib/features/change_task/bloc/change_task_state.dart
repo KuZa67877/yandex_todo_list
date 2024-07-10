@@ -5,7 +5,7 @@ class ChangeTaskState extends Equatable {
   final Task? editedTask;
   final TaskStatusMode status;
 
-  ChangeTaskState({
+  const ChangeTaskState({
     this.status = TaskStatusMode.basic,
     this.haveTask = false,
     this.editedTask,
