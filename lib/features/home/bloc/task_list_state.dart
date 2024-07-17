@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import '../../../data/task.dart';
+part of 'task_list_bloc.dart';
 
 class TaskListState extends Equatable {
   final List<Task> tasksList;
@@ -15,7 +14,7 @@ class TaskListState extends Equatable {
   factory TaskListState.initial() {
     return const TaskListState(
       tasksList: [],
-      showCompletedTasks: true,
+      showCompletedTasks: false,
       doneTasksCount: 0,
     );
   }
@@ -23,12 +22,12 @@ class TaskListState extends Equatable {
   TaskListState copyWith({
     List<Task>? tasksList,
     bool? showCompletedTasks,
+    int? doneTasksCount,
   }) {
     return TaskListState(
       tasksList: tasksList ?? this.tasksList,
       showCompletedTasks: showCompletedTasks ?? this.showCompletedTasks,
-      doneTasksCount:
-          tasksList?.where((task) => task.isDone).length ?? this.doneTasksCount,
+      doneTasksCount: doneTasksCount ?? this.doneTasksCount,
     );
   }
 

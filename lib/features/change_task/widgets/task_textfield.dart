@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../resourses/colors.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class TaskTextField extends StatefulWidget {
   const TaskTextField({super.key, required this.controller});
   final TextEditingController controller;
@@ -36,11 +38,11 @@ class _TaskTextFieldState extends State<TaskTextField> {
           keyboardType: TextInputType.multiline,
           maxLines: null,
           minLines: 1,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.all(16),
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(16),
             border: InputBorder.none,
-            hintText: "Что надо сделать...",
-            hintStyle: TextStyle(
+            hintText: AppLocalizations.of(context).taskTextHint,
+            hintStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
               color: AppColors.lightLabelTertiary,

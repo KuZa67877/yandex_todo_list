@@ -10,6 +10,7 @@ class ChangeTaskBloc extends Bloc<ChangeTaskEvent, ChangeTaskState> {
     on<EditTaskEvent>(_editTask);
     on<DeleteCurrentTaskEvent>(_deleteCurrentTask);
     on<ChangeDeadLineEvent>(_changeDeadLine);
+    on<ChangePriorityEvent>(_changePriority);
   }
 
   Future<void> _editTask(
@@ -27,6 +28,14 @@ class ChangeTaskBloc extends Bloc<ChangeTaskEvent, ChangeTaskState> {
     if (state.editedTask != null) {
       final updatedTask =
           state.editedTask!.copyWith(taskDeadline: event.deadline);
+      emit(state.copyWith(editedTask: updatedTask));
+    }
+  }
+
+  Future<void> _changePriority(
+      ChangePriorityEvent event, Emitter<ChangeTaskState> emit) async {
+    if (state.editedTask != null) {
+      final updatedTask = state.editedTask!.copyWith(taskMode: event.priority);
       emit(state.copyWith(editedTask: updatedTask));
     }
   }

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../resourses/colors.dart';
+import '../bloc/change_task_bloc.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddDeadlineWidget extends StatefulWidget {
   bool hasDeadline;
-  AddDeadlineWidget({Key? key, this.hasDeadline = false}) : super(key: key);
+
+  AddDeadlineWidget({super.key, this.hasDeadline = false});
 
   @override
   State<AddDeadlineWidget> createState() => _AddDeadlineWidgetState();
@@ -17,8 +22,8 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       helpText: DateTime.now().year.toString(),
-      confirmText: 'ГОТОВО',
-      cancelText: "ОТМЕНА",
+      confirmText: AppLocalizations.of(context).done,
+      cancelText: AppLocalizations.of(context).cancel,
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime(1970),
@@ -34,6 +39,7 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
       setState(() {
         selectedDate = picked;
         widget.hasDeadline = true;
+        context.read<ChangeTaskBloc>().add(ChangeDeadLineEvent(picked));
       });
     }
   }
@@ -43,6 +49,7 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
       if (!newValue) {
         selectedDate = null;
         widget.hasDeadline = false;
+        context.read<ChangeTaskBloc>().add(ChangeDeadLineEvent(DateTime.now()));
       } else {
         _selectDate(context);
       }
@@ -61,9 +68,9 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Сделать до",
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).taskDeadline,
+                  style: const TextStyle(
                       color: AppColors.lightLabelPrimary,
                       fontSize: 16,
                       fontWeight: FontWeight.w400),

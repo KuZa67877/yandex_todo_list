@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../resourses/colors.dart';
 import '../../../data/task.dart';
+import '../bloc/change_task_bloc.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskPriorityDropDownMenu extends StatelessWidget {
   final Task? task;
-  TaskPriorityDropDownMenu({super.key, this.task});
+  const TaskPriorityDropDownMenu({super.key, this.task});
 
   @override
   Widget build(BuildContext context) {
-    TaskStatusMode taskMode = task?.taskMode ?? TaskStatusMode.standartMode;
+    TaskStatusMode taskMode = task?.taskMode ?? TaskStatusMode.basic;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: ButtonTheme(
@@ -17,66 +21,65 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
           value: taskMode,
           onChanged: (newPriority) {
             if (newPriority != taskMode) {
-              taskMode = newPriority;
+              context
+                  .read<ChangeTaskBloc>()
+                  .add(ChangePriorityEvent(newPriority!));
             }
-            // } else {
-            //   priority = null;
-            // }
           },
           style: const TextStyle(
             fontSize: 16,
             color: AppColors.lightLabelTertiary,
           ),
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             enabled: false,
-            disabledBorder: UnderlineInputBorder(
+            disabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
                 color: AppColors.lightSupportSeparator,
                 width: 0.5,
                 style: BorderStyle.solid,
               ),
             ),
-            contentPadding: EdgeInsets.only(bottom: 16.0, top: 16.0),
-            labelText: 'Важность',
-            labelStyle: TextStyle(
+            contentPadding: const EdgeInsets.only(bottom: 16.0, top: 16.0),
+            labelText: AppLocalizations.of(context).taskImportance,
+            labelStyle: const TextStyle(
               fontSize: 22.0,
               color: AppColors.lightLabelPrimary,
             ),
           ),
           iconSize: 0,
-          hint: const Text(
-            'Нет',
-            style: TextStyle(
+          hint: Text(
+            AppLocalizations.of(context).taskImportanceBasic,
+            style: const TextStyle(
               fontSize: 16,
               color: AppColors.lightLabelTertiary,
             ),
           ),
-          items: const <DropdownMenuItem>[
+          items: <DropdownMenuItem>[
             DropdownMenuItem(
-              value: TaskStatusMode.standartMode,
+              value: TaskStatusMode.basic,
               child: Text(
-                'Нет',
-                style: TextStyle(
+                AppLocalizations.of(context).taskImportanceBasic,
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.lightLabelPrimary,
                 ),
               ),
             ),
             DropdownMenuItem(
-              value: TaskStatusMode.lowPriorityMode,
+              value: TaskStatusMode.low,
               child: Text(
-                'Низкий',
-                style: TextStyle(
+                AppLocalizations.of(context).taskImportanceLow,
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.lightLabelPrimary,
                 ),
               ),
             ),
             DropdownMenuItem(
-              value: TaskStatusMode.highPriorityMode,
+              value: TaskStatusMode.important,
               child: Text(
-                '!! Высокий',
-                style: TextStyle(
+                AppLocalizations.of(context).taskImportanceImportant,
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.lightColorRed,
                 ),

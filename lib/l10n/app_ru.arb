@@ -1,0 +1,24 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Мои дела",
+  "addTaskTooltip": "Добавить задачу",
+  "tasksDone": "Выполнено — {count}",
+  "@tasksDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "createTask": "Добавить задачу",
+  "save": "Сохранить",
+  "remove": "Удалить",
+  "taskTextHint": "Что надо сделать…",
+  "taskImportance": "Важность",
+  "taskImportanceLow": "Низкий",
+  "taskImportanceBasic": "Нет",
+  "taskImportanceImportant": "!! Высокий",
+  "taskDeadline": "Сделать до",
+  "done" : "ГОТОВО",
+  "cancel" : "ОТМЕНА"
+}

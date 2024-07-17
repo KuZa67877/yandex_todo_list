@@ -1,18 +1,16 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../data/task.dart';
-import 'task_list_event.dart';
-import 'task_list_state.dart';
 
 import 'package:bloc/bloc.dart';
 import '../../../data/task_api.dart';
+import '../../../data/task.dart';
 
-// part 'task_list_event.dart';
-// part 'task_list_state.dart';
-// part 'task_list_event.dart';
-// part 'task_list_state.dart';
+part 'task_list_event.dart';
+part 'task_list_state.dart';
 
 class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
   final TaskApi taskApi;
+  bool _tasksLoaded = false;
 
   TaskListBloc({required this.taskApi}) : super(TaskListState.initial()) {
     on<LoadTasksEvent>(_onLoadTasks);
@@ -20,19 +18,27 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
     on<ChangeTaskStatusEvent>(_onChangeTaskStatus);
     on<DeleteTaskEvent>(_onDeleteTask);
     on<ToggleShowCompletedTasksEvent>(_onToggleShowCompletedTasks);
+
+    if (!_tasksLoaded) {
+      _tasksLoaded = true;
+      add(LoadTasksEvent());
+    }
   }
 
   Future<void> _onLoadTasks(
       LoadTasksEvent event, Emitter<TaskListState> emit) async {
     await emit.forEach<List<Task>>(
       taskApi.getTasks(),
-      onData: (tasks) => state.copyWith(tasksList: tasks),
+      onData: (tasks) => state.copyWith(
+        tasksList: tasks,
+        doneTasksCount: tasks.where((task) => task.done).length,
+      ),
     );
   }
 
   Future<void> _onAddTask(
       AddTaskEvent event, Emitter<TaskListState> emit) async {
-    await taskApi.saveTask(event.task);
+    await taskApi.addTask(event.task);
     add(LoadTasksEvent());
   }
 
@@ -40,13 +46,22 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
       ChangeTaskStatusEvent event, Emitter<TaskListState> emit) async {
     final updatedTask = event.task.copyWith(isDone: event.isDone);
     await taskApi.saveTask(updatedTask);
-    add(LoadTasksEvent());
+
+    final updatedTasksList = List<Task>.from(state.tasksList);
+    final taskIndex = updatedTasksList.indexWhere((t) => t.id == event.task.id);
+    if (taskIndex != -1) {
+      updatedTasksList[taskIndex] = updatedTask;
+      emit(state.copyWith(tasksList: updatedTasksList));
+    }
   }
 
   Future<void> _onDeleteTask(
       DeleteTaskEvent event, Emitter<TaskListState> emit) async {
-    await taskApi.deleteTask(event.task.UUID);
-    add(LoadTasksEvent());
+    await taskApi.deleteTask(event.task.id);
+
+    final updatedTasksList = List<Task>.from(state.tasksList)
+      ..removeWhere((t) => t.id == event.task.id);
+    emit(state.copyWith(tasksList: updatedTasksList));
   }
 
   void _onToggleShowCompletedTasks(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../resourses/colors.dart';
 import '../bloc/task_list_bloc.dart';
-import '../bloc/task_list_event.dart';
-import '../bloc/task_list_state.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CountOfCompetedTasksWidget extends StatelessWidget {
   const CountOfCompetedTasksWidget({super.key});
@@ -19,7 +19,7 @@ class CountOfCompetedTasksWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Выполнено — ${state.doneTasksCount}",
+                  AppLocalizations.of(context).tasksDone(state.doneTasksCount),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,

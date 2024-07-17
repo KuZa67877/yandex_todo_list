@@ -6,12 +6,11 @@ import '../../change_task/change_task_screen.dart';
 import '../../../data/task.dart';
 import 'package:intl/intl.dart';
 import '../bloc/task_list_bloc.dart';
-import '../bloc/task_list_event.dart';
 
 class TaskItemWidget extends StatelessWidget {
   final Task task;
 
-  const TaskItemWidget({Key? key, required this.task}) : super(key: key);
+  const TaskItemWidget({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +18,15 @@ class TaskItemWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Dismissible(
-        key: Key(task.UUID),
+        key: Key(task.id),
         background: _buildSwipeActionLeft(context),
         secondaryBackground: _buildSwipeActionRight(context),
         onDismissed: (direction) {
           if (direction == DismissDirection.startToEnd) {
-            bloc.add(ChangeTaskStatusEvent(task: task, isDone: !task.isDone));
-            logger.d('Task status changed: ${task.taskInfo}');
+            if (task.done == false) {
+              bloc.add(ChangeTaskStatusEvent(task: task, isDone: true));
+              logger.d('Task marked as done: ${task.taskInfo}');
+            }
           } else if (direction == DismissDirection.endToStart) {
             bloc.add(DeleteTaskEvent(task: task));
             logger.d('Task deleted: ${task.taskInfo}');
@@ -43,12 +44,12 @@ class TaskItemWidget extends StatelessWidget {
                 Text(
                   '${taskStatus(task.taskMode)}${task.taskInfo}',
                   style: TextStyle(
-                    decoration: task.isDone
+                    decoration: task.done
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: task.isDone
+                    color: task.done
                         ? AppColors.lightLabelTertiary
                         : AppColors.lightLabelPrimary,
                   ),
@@ -57,18 +58,22 @@ class TaskItemWidget extends StatelessWidget {
                   Text(
                     FormatDate.toDmmmmyyyy(task.taskDeadline!),
                     style: const TextStyle(
-                      color: AppColors.lightBackSecondary,
+                      color: AppColors.lightLabelPrimary,
                       fontSize: 12,
                     ),
                   ),
               ],
             ),
-            leading: Icon(
-              task.isDone ? Icons.check_box : Icons.crop_square_outlined,
-              color: task.taskMode == TaskStatusMode.highPriorityMode &&
-                      !task.isDone
-                  ? AppColors.lightColorRed
-                  : AppColors.lightLabelTertiary,
+            leading: IconButton(
+              onPressed: () {
+                bloc.add(ChangeTaskStatusEvent(task: task, isDone: !task.done));
+              },
+              icon: Icon(
+                task.done ? Icons.check_box : Icons.crop_square_outlined,
+                color: task.taskMode == TaskStatusMode.important && !task.done
+                    ? AppColors.lightColorRed
+                    : AppColors.lightLabelTertiary,
+              ),
             ),
             trailing: IconButton(
               onPressed: () async {
@@ -93,9 +98,13 @@ class TaskItemWidget extends StatelessWidget {
   }
 
   Widget _buildSwipeActionLeft(BuildContext context) {
+    final bloc = context.read<TaskListBloc>();
     return GestureDetector(
       onTap: () {
-        logger.d('Completed task: ${task.taskInfo}');
+        if (!task.done) {
+          logger.d('Completed task: ${task.taskInfo}');
+          bloc.add(ChangeTaskStatusEvent(task: task, isDone: true));
+        }
       },
       child: Container(
         color: Colors.green,
@@ -114,9 +123,11 @@ class TaskItemWidget extends StatelessWidget {
   }
 
   Widget _buildSwipeActionRight(BuildContext context) {
+    final bloc = context.read<TaskListBloc>();
     return GestureDetector(
       onTap: () {
         logger.d('Deleted task: ${task.taskInfo}');
+        bloc.add(DeleteTaskEvent(task: task));
       },
       child: Container(
         color: Colors.red,
@@ -137,9 +148,9 @@ class TaskItemWidget extends StatelessWidget {
 
 String taskStatus(TaskStatusMode mode) {
   switch (mode) {
-    case TaskStatusMode.highPriorityMode:
+    case TaskStatusMode.important:
       return '!! ';
-    case TaskStatusMode.lowPriorityMode:
+    case TaskStatusMode.low:
       return '↓ ';
     default:
       return '';

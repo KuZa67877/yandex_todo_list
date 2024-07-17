@@ -1,9 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-import '../../../data/task.dart';
-import 'task_list_state.dart';
-
-//part of 'task_list_bloc.dart';
+part of 'task_list_bloc.dart';
 
 abstract class TaskListEvent extends Equatable {
   const TaskListEvent();
