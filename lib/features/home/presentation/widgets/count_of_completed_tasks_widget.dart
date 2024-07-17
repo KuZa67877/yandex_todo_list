@@ -20,10 +20,9 @@ class CountOfCompetedTasksWidget extends StatelessWidget {
               children: [
                 Text(
                   AppLocalizations.of(context).tasksDone(state.doneTasksCount),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.lightLabelTertiary,
                   ),
                 ),
                 IconButton(

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../../../core/resourses/colors.dart';
-
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskTextField extends StatefulWidget {
@@ -15,6 +12,10 @@ class TaskTextField extends StatefulWidget {
 class _TaskTextFieldState extends State<TaskTextField> {
   @override
   Widget build(BuildContext context) {
+    // Получаем цвет из темы
+    final inputBackgroundColor =
+        Theme.of(context).inputDecorationTheme.fillColor;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
@@ -22,14 +23,13 @@ class _TaskTextFieldState extends State<TaskTextField> {
           minHeight: 104,
         ),
         decoration: BoxDecoration(
+          color: inputBackgroundColor, // Используем цвет фона из темы
           borderRadius: BorderRadius.circular(8),
-          color: Colors.white,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
               blurRadius: 3,
-              offset: const Offset(0, 1),
+              offset: Offset(0, 1),
             ),
           ],
         ),
@@ -40,12 +40,16 @@ class _TaskTextFieldState extends State<TaskTextField> {
           minLines: 1,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(16),
-            border: InputBorder.none,
             hintText: AppLocalizations.of(context).taskTextHint,
             hintStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              color: AppColors.lightLabelTertiary,
+            ),
+            filled: true,
+            fillColor: inputBackgroundColor, // Используем тот же цвет фона
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: BorderSide.none, // Убираем рамку
             ),
           ),
         ),

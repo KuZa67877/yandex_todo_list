@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
@@ -51,8 +52,9 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
       child: BlocBuilder<ChangeTaskBloc, ChangeTaskState>(
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: AppColors.lightBackPrimary,
+            backgroundColor: Theme.of(context).primaryColor,
             appBar: AppBar(
+              backgroundColor: Theme.of(context).primaryColor,
               leading: IconButton(
                 onPressed: () {
                   logger.d('Back to main Screen');
@@ -120,7 +122,7 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
     );
   }
 
-  void saveTask(BuildContext context, ChangeTaskState state) {
+  void saveTask(BuildContext context, ChangeTaskState state) async {
     final task = Task(
       id: widget.task?.id ?? const Uuid().v4(),
       taskInfo: _taskController.text,
@@ -130,20 +132,29 @@ class _ChangeTaskScreenState extends State<ChangeTaskScreen> {
     );
     if (widget.task == null) {
       context.read<TaskListBloc>().add(AddTaskEvent(task: task));
+
+      await FirebaseAnalytics.instance.logEvent(name: "taks_added");
     } else {
       context
           .read<TaskListBloc>()
           .add(ChangeTaskStatusEvent(task: task, isDone: task.done));
+
+      await FirebaseAnalytics.instance.logEvent(name: "tak_changed");
     }
     Navigator.pop(context);
     logger.d('Current task: ${task.taskInfo}');
+
+    await FirebaseAnalytics.instance.logEvent(name: "back_to_main_screen");
   }
 
-  void deleteTask() {
+  void deleteTask() async {
     if (widget.task != null) {
       context.read<TaskListBloc>().add(DeleteTaskEvent(task: widget.task!));
+
+      await FirebaseAnalytics.instance.logEvent(name: "taks_deleted");
     }
 
     Navigator.pop(context);
+    await FirebaseAnalytics.instance.logEvent(name: "back_to_main_screen");
   }
 }

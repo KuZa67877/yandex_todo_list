@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "190560460552",
+    "project_id": "yandex-todo-list",
+    "storage_bucket": "yandex-todo-list.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190560460552:android:78c4a5d8e31b7bbacc16bd",
+        "android_client_info": {
+          "package_name": "com.example.for_build"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUQqw6X59FqofNOqdE5f0u8AQpMhIqPA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

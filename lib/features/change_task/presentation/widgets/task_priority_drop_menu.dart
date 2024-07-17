@@ -17,7 +17,9 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: ButtonTheme(
+        buttonColor: Theme.of(context).primaryColor,
         child: DropdownButtonFormField(
+          dropdownColor: Theme.of(context).scaffoldBackgroundColor,
           value: taskMode,
           onChanged: (newPriority) {
             if (newPriority != taskMode) {
@@ -28,10 +30,11 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
           },
           style: const TextStyle(
             fontSize: 16,
-            color: AppColors.lightLabelTertiary,
+            // color: AppColors.lightLabelTertiary,
           ),
           decoration: InputDecoration(
             enabled: false,
+            fillColor: Theme.of(context).primaryColor,
             disabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
                 color: AppColors.lightSupportSeparator,
@@ -43,7 +46,7 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
             labelText: AppLocalizations.of(context).taskImportance,
             labelStyle: const TextStyle(
               fontSize: 22.0,
-              color: AppColors.lightLabelPrimary,
+              //  color: AppColors.lightLabelPrimary,
             ),
           ),
           iconSize: 0,
@@ -51,7 +54,7 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
             AppLocalizations.of(context).taskImportanceBasic,
             style: const TextStyle(
               fontSize: 16,
-              color: AppColors.lightLabelTertiary,
+              //  color: AppColors.lightLabelTertiary,
             ),
           ),
           items: <DropdownMenuItem>[
@@ -59,9 +62,9 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
               value: TaskStatusMode.basic,
               child: Text(
                 AppLocalizations.of(context).taskImportanceBasic,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.lightLabelPrimary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
@@ -69,9 +72,9 @@ class TaskPriorityDropDownMenu extends StatelessWidget {
               value: TaskStatusMode.low,
               child: Text(
                 AppLocalizations.of(context).taskImportanceLow,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.lightLabelPrimary,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
             ),

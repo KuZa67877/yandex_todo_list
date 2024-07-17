@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:yandex_to_do_app/core/utils/local_remote.dart';
 import '../domain/repository/task_repository.dart';
 import '../domain/repository/task_repository_impl.dart';
 import 'local/local_task_data_source_impl.dart';
@@ -11,7 +12,7 @@ class ServiceLocator {
 
   static Future<void> setup() async {
     await dotenv.load(fileName: ".env");
-
+    final localRemote = LocalRemote();
     final prefs = await SharedPreferences.getInstance();
     final localDataSource = LocalTaskDataSourceImpl(plugin: prefs);
 
@@ -24,6 +25,7 @@ class ServiceLocator {
       localDataSource: localDataSource,
       remoteDataSource: remoteDataSource,
     );
+    getIt.registerSingleton<LocalRemote>(localRemote);
 
     getIt.registerSingleton<TaskRepository>(repository);
   }

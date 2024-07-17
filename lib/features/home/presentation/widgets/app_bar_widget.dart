@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../../core/resourses/colors.dart';
-
 class MyAppBar extends StatelessWidget {
   const MyAppBar({super.key});
 
@@ -13,7 +11,7 @@ class MyAppBar extends StatelessWidget {
       floating: true,
       pinned: true,
       snap: false,
-      backgroundColor: AppColors.lightBackPrimary,
+      backgroundColor: Theme.of(context).primaryColor,
       expandedHeight: 150.0,
       flexibleSpace: FlexibleSpaceBar(
         title: Text(

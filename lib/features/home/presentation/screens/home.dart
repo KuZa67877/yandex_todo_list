@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/resourses/colors.dart';
@@ -19,7 +20,7 @@ class ToDoMainScreen extends StatelessWidget {
     return BlocBuilder<TaskListBloc, TaskListState>(
       builder: (BuildContext context, state) {
         return Scaffold(
-          backgroundColor: AppColors.lightBackPrimary,
+          backgroundColor: Theme.of(context).primaryColor,
           body: CustomScrollView(
             slivers: [
               const MyAppBar(),
@@ -30,7 +31,9 @@ class ToDoMainScreen extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             key: const ValueKey('add_task_button'),
-            onPressed: () {
+            onPressed: () async {
+              await FirebaseAnalytics.instance
+                  .logEvent(name: "navigating_to_edit_task_screen");
               routerDelegate.addTask();
             },
             backgroundColor: AppColors.lightColorBlue,

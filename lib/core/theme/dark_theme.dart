@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
 
+import '../resourses/colors.dart';
+
 ThemeData darkTheme() {
   return ThemeData(
-      primaryColor: const Color(0xff252528),
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.white,
-        brightness: Brightness.dark,
-        surface: const Color(0xff252528),
+    brightness: Brightness.dark,
+    primaryColor: AppColors.darkBackPrimary,
+    scaffoldBackgroundColor: AppColors.darkBackSecondary,
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.darkBackSecondary,
+      foregroundColor: AppColors.darkLabelPrimary,
+    ),
+    colorScheme: const ColorScheme.dark(
+      primary: AppColors.darkLabelPrimary,
+      secondary: AppColors.darkLabelSecondary,
+      onPrimary: AppColors.darkLabelTertiary,
+      onSecondary: AppColors.darkLabelDisable,
+      error: AppColors.darkColorRed,
+      background: AppColors.darkBackPrimary,
+      surface: AppColors.darkBackSecondary,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: AppColors.darkBackSecondary,
+      filled: true,
+      hintStyle: TextStyle(color: AppColors.darkLabelTertiary),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.darkSupportSeparator),
+        borderRadius: BorderRadius.circular(8.0),
       ),
-      cardColor: const Color(0xff252528),
-      scaffoldBackgroundColor: const Color(0xFF161618),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Color(0xFF0484ff), foregroundColor: Colors.white));
+    ),
+  );
 }

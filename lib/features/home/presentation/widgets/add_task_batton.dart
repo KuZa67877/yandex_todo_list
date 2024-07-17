@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../../../core/resourses/colors.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../routes/router_delegate.dart';
 
@@ -16,16 +14,17 @@ class AddNewTaskItemWidget extends StatelessWidget {
 
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: InkWell(
           onTap: () async {
             logger.d('Navigating to edit task screen ');
             routerDelegate.addTask();
+            //throw Exception();
           },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
             ),
             child: ListTile(
               title: Padding(
@@ -35,7 +34,7 @@ class AddNewTaskItemWidget extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.lightLabelTertiary,
+                    //color: AppColors.lightLabelTertiary,
                   ),
                 ),
               ),

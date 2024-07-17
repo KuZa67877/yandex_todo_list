@@ -1,2 +1,3 @@
-# yandex_todo_list
-To do list from Yandex School of mobile development
+# for_build
+
+A new Flutter project.

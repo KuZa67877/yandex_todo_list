@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../core/resourses/colors.dart';
 import '../../bloc/change_task_bloc.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,7 +34,12 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
       lastDate: DateTime(2077),
       builder: (context, child) {
         return Theme(
-          data: ThemeData(useMaterial3: false),
+          data: ThemeData(
+            useMaterial3: false,
+            dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            // colorScheme: ColorScheme(
+            //     onSurface: Theme.of(context).colorScheme.primary)
+          ),
           child: child!,
         );
       },
@@ -76,8 +79,8 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
               children: [
                 Text(
                   AppLocalizations.of(context).taskDeadline,
-                  style: const TextStyle(
-                      color: AppColors.lightLabelPrimary,
+                  style: TextStyle(
+                      //color: Theme.of(context).scaffoldBackgroundColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w400),
                 ),
@@ -86,7 +89,7 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
                   Text(
                     FormatDate.toDmmmmyyyy(selectedDate!),
                     style: const TextStyle(
-                      color: AppColors.lightColorBlue,
+                      //color: AppColors.lightColorBlue,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
@@ -97,7 +100,7 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
                   Text(
                     FormatDate.toDmmmmyyyy(widget.initialDate!),
                     style: const TextStyle(
-                      color: AppColors.lightColorBlue,
+                      //color: AppColors.lightColorBlue,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
