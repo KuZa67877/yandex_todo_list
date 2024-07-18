@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../resourses/colors.dart';
-import '../bloc/task_list_bloc.dart';
+import '../../../../core/resourses/colors.dart';
+import '../../bloc/task_list_bloc.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

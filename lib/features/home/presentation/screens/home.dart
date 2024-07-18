@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../utils/logger.dart';
-import '../../resourses/colors.dart';
-import '../change_task/change_task_screen.dart';
-import 'bloc/task_list_bloc.dart';
-import 'widget/add_task_batton.dart';
-import 'widget/app_bar_widget.dart';
-import 'widget/count_of_completed_tasks_widget.dart';
-import 'widget/task_list_view.dart';
+import '../../../../core/resourses/colors.dart';
+import '../../../../routes/router_delegate.dart';
+import '../../bloc/task_list_bloc.dart';
+import '../widgets/add_task_batton.dart';
+import '../widgets/app_bar_widget.dart';
+import '../widgets/count_of_completed_tasks_widget.dart';
+import '../widgets/task_list_view.dart';
 
 class ToDoMainScreen extends StatelessWidget {
   const ToDoMainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ToDoRouterDelegate routerDelegate =
+        Router.of(context).routerDelegate as ToDoRouterDelegate;
+
     return BlocBuilder<TaskListBloc, TaskListState>(
       builder: (BuildContext context, state) {
         return Scaffold(
@@ -27,8 +29,9 @@ class ToDoMainScreen extends StatelessWidget {
             ],
           ),
           floatingActionButton: FloatingActionButton(
+            key: const ValueKey('add_task_button'),
             onPressed: () {
-              addTask(context);
+              routerDelegate.addTask();
             },
             backgroundColor: AppColors.lightColorBlue,
             shape: const CircleBorder(),
@@ -41,17 +44,4 @@ class ToDoMainScreen extends StatelessWidget {
       },
     );
   }
-}
-
-void addTask(BuildContext context) {
-  logger.d('Show ChangeTaskScreen');
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => BlocProvider.value(
-        value: BlocProvider.of<TaskListBloc>(context),
-        child: const ChangeTaskScreen(),
-      ),
-    ),
-  );
 }

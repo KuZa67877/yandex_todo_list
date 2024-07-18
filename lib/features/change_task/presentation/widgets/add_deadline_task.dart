@@ -2,22 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../resourses/colors.dart';
-import '../bloc/change_task_bloc.dart';
+import '../../../../core/resourses/colors.dart';
+import '../../bloc/change_task_bloc.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddDeadlineWidget extends StatefulWidget {
   bool hasDeadline;
-
-  AddDeadlineWidget({super.key, this.hasDeadline = false});
+  final DateTime? initialDate;
+  AddDeadlineWidget({super.key, this.hasDeadline = false, this.initialDate});
 
   @override
   State<AddDeadlineWidget> createState() => _AddDeadlineWidgetState();
 }
 
 class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
-  DateTime? selectedDate;
+  late DateTime? selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = widget.initialDate;
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -75,7 +81,7 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
                       fontSize: 16,
                       fontWeight: FontWeight.w400),
                 ),
-                if (selectedDate != null) ...[
+                if (selectedDate != null && widget.initialDate == null) ...[
                   const SizedBox(height: 8),
                   Text(
                     FormatDate.toDmmmmyyyy(selectedDate!),
@@ -86,6 +92,17 @@ class _AddDeadlineWidgetState extends State<AddDeadlineWidget> {
                     ),
                   ),
                 ],
+                if (widget.initialDate != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    FormatDate.toDmmmmyyyy(widget.initialDate!),
+                    style: const TextStyle(
+                      color: AppColors.lightColorBlue,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ]
               ],
             ),
           ),

@@ -1,11 +1,11 @@
 part of 'change_task_bloc.dart';
 
-class ChangeTaskState {
+class ChangeTaskState extends Equatable {
   final bool haveTask;
   final Task? editedTask;
   final TaskStatusMode status;
 
-  ChangeTaskState({
+  const ChangeTaskState({
     this.status = TaskStatusMode.basic,
     this.haveTask = false,
     this.editedTask,
@@ -22,4 +22,7 @@ class ChangeTaskState {
       status: status ?? this.status,
     );
   }
+
+  @override
+  List<Object?> get props => [haveTask, editedTask, status];
 }
