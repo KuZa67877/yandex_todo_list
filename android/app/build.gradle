@@ -54,19 +54,7 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
-    flavorDimensions "starter_app"
-    productFlavors {
-        dev {
-            dimension "starter_app"
-            applicationIdSuffix ".dev"
-            resValue "string", "app_name", "Ya.Todo(Dev)"
-            versionNameSuffix ".dev"
-        }
-        prod {
-            dimension "starter_app"
-            resValue "string", "app_name", "Ya.Todo"
-        }
-    }
+    
 }
 
 flutter {
